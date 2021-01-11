@@ -1,6 +1,7 @@
 package com.primeinformatica.pdeliver.services;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,8 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.primeinformatica.pdeliver.dto.OrderDTO;
+import com.primeinformatica.pdeliver.dto.ProductDTO;
 import com.primeinformatica.pdeliver.entities.Order;
+import com.primeinformatica.pdeliver.entities.OrderStatus;
+import com.primeinformatica.pdeliver.entities.Product;
 import com.primeinformatica.pdeliver.repositories.OrderRepository;
+import com.primeinformatica.pdeliver.repositories.ProductRepository;
 
 @Service
 public class OrderService implements Serializable {
@@ -19,8 +24,17 @@ public class OrderService implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+
+	
+	
 	@Autowired
 	private OrderRepository repository;
+	
+	
+	@Autowired
+	private ProductRepository productRepository;
+	
 	
 	@Transactional(readOnly = true)
 	public List<OrderDTO> findAll(){
@@ -29,5 +43,41 @@ public class OrderService implements Serializable {
 		return list.stream().map(x -> new OrderDTO(x)).collect(Collectors.toList());
 		
 	}
+	
+	
+	
+	@Transactional
+	public OrderDTO insert(OrderDTO dto) {
+		Order order = new Order(null, dto.getAddress(), dto.getLatidude(),dto.getLongitude() , Instant.now(), OrderStatus.PENDING);
+		
+		for(ProductDTO p: dto.getProducts()) {
+			
+			Product product = productRepository.getOne(p.getId());
+			order.getProducts().add(product);
+			order = repository.save(order);
+			
+		
+			
+		}
+		
+		return new OrderDTO(order);
+		
+	}
+	
+	
+	
+	@Transactional
+	public OrderDTO setDelivered(Long id) {
+		Order order = repository.getOne(id);
+		order.setStatus(OrderStatus.DELIVERED);
+		order = repository.save(order);
+		
+		return new OrderDTO(order);
+		
+	}
+	
+	
+	
+	
 
 }
