@@ -13,7 +13,7 @@ function ProductsList({products}:Props){
         <div className="orders-list-container">
                 <div className="orders-list-items">
                         {products.map(product=>(
-                                <ProductsCard key={product.id} ></ProductsCard>
+                                <ProductsCard key={product.id} product={product} ></ProductsCard>
                         )
 
                         )}
