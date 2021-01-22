@@ -10,7 +10,7 @@ import { fetchProducts } from '../api';
 
 function Orders(){
 const [products, setProducts] = useState<Product[]>([])
-        
+       
         useEffect(()=>{
                         fetchProducts()
                         .then(reponse => setProducts(reponse.data))
@@ -24,7 +24,7 @@ const [products, setProducts] = useState<Product[]>([])
         <div className="orders-container">
               
                 <StepsHeader></StepsHeader>
-                <ProductsList></ProductsList>
+                <ProductsList  products={products} ></ProductsList>
 
 
         </div>
