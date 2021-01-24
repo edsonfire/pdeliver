@@ -9,3 +9,10 @@ export type Product = {
     imageUri:string;
 
 }
+
+export type OrderlocationData ={
+
+    latitude:number;
+    longitude:number;
+    address:string;
+}
