@@ -4,6 +4,7 @@ import { Product } from './Types';
 
 type Props ={
     product : Product;
+    onSelectProduct:(product: Product)=> void;
 }
 
 function formatPrice(price:number){
@@ -19,7 +20,10 @@ function ProductsCard({product}:Props){
 
     return (
         <>
-        <div className="order-card-container">
+        <div 
+        className="order-card-container"
+        onClick={() => onSelectProduct(product)}
+        >
                <h3 className="order-card-title">
                     {product.name}                  
                </h3>

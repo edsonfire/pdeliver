@@ -5,6 +5,7 @@ import ProductsList from './ProductsList';
 import { OrderlocationData, Product } from './Types';
 import { fetchProducts } from '../api';
 import OrderLocation from './OrderLocation';
+import OrderSummary from './OrderSummary';
 
 
 
@@ -27,7 +28,7 @@ const [orderLocation, setOrderLocation] = useState<OrderlocationData>();
                 <StepsHeader></StepsHeader>
                 <ProductsList  products={products} ></ProductsList>
                 <OrderLocation onChangeLocation={location=>setOrderLocation(location)}></OrderLocation>
-
+                <OrderSummary></OrderSummary>
         </div>
 
         </>
