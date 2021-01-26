@@ -8,6 +8,10 @@ import OrderLocation from './OrderLocation';
 import OrderSummary from './OrderSummary';
 
 
+type Props ={
+        onSelectProduct: (product: Product)=> void;
+    }
+    
 
 
 function Orders(){
@@ -21,6 +25,18 @@ const [orderLocation, setOrderLocation] = useState<OrderlocationData>();
 
         }, []);
 
+        const handleSelectProduct = (product: Product) => {
+                const isAlreadySelected = selectedProducts.some(item => item.id === product.id);
+              
+                if (isAlreadySelected) {
+                  const selected = selectedProducts.filter(item => item.id !== product.id);
+                  setSelectedProducts(selected);
+                } else {
+                  setSelectedProducts(previous => [...previous, product]);
+                }
+              }
+              
+              
     return (
         <>
         <div className="orders-container">
