@@ -1,3 +1,4 @@
+import { type } from "os";
 import { number, string } from "prop-types";
 
 export type Product = {
@@ -16,3 +17,12 @@ export type OrderlocationData ={
     longitude:number;
     address:string;
 }
+
+type ProductId={
+    id:number;
+}
+
+export type OrderPayload={
+
+    products: ProductId[];
+}&OrderlocationData;

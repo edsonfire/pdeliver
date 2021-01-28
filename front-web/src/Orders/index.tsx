@@ -6,6 +6,7 @@ import { OrderlocationData, Product } from './Types';
 import { fetchProducts } from '../api';
 import OrderLocation from './OrderLocation';
 import OrderSummary from './OrderSummary';
+import { checkIsSelected } from './helpers';
 
 
 type Props ={
@@ -15,8 +16,12 @@ type Props ={
 
 
 function Orders(){
-const [products, setProducts] = useState<Product[]>([])
+const [products, setProducts] = useState<Product[]>([]);
+const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 const [orderLocation, setOrderLocation] = useState<OrderlocationData>();   
+const totalPrice = selectedProducts.reduce((sum,item)=> {
+        return sum +item.price;
+},0);
         useEffect(()=>{
                         fetchProducts()
                         .then(reponse => setProducts(reponse.data))
@@ -26,7 +31,7 @@ const [orderLocation, setOrderLocation] = useState<OrderlocationData>();
         }, []);
 
         const handleSelectProduct = (product: Product) => {
-                const isAlreadySelected = selectedProducts.some(item => item.id === product.id);
+                const isAlreadySelected = checkIsSelected(selectedProducts, product);
               
                 if (isAlreadySelected) {
                   const selected = selectedProducts.filter(item => item.id !== product.id);
@@ -42,9 +47,13 @@ const [orderLocation, setOrderLocation] = useState<OrderlocationData>();
         <div className="orders-container">
               
                 <StepsHeader></StepsHeader>
-                <ProductsList  products={products} ></ProductsList>
+                <ProductsList  
+                        products={products} 
+                        onSelectProduct={handleSelectProduct}
+                        selectedProducts={selectedProducts}
+                        ></ProductsList>
                 <OrderLocation onChangeLocation={location=>setOrderLocation(location)}></OrderLocation>
-                <OrderSummary></OrderSummary>
+                <OrderSummary amount={selectedProducts.length} totalPrice={totalPrice}></OrderSummary>
         </div>
 
         </>

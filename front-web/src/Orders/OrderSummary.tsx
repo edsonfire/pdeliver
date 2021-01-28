@@ -1,7 +1,15 @@
+import { type } from "os";
 import Footer from "../Footer";
+import { formatPrice } from "./helpers";
 
 
-function OrderSummary(){
+type Props = {
+
+        amount:number;
+        totalPrice:number;
+}
+
+function OrderSummary({amount, totalPrice}:Props){
 
     return (
             <>
@@ -9,11 +17,11 @@ function OrderSummary(){
                     <div className="order-summary-content">
                        <div>
                        <span className="amount-selected-container">
-                           <strong className="amount-selected">2</strong>
+                           <strong className="amount-selected">{amount}</strong>
                         PEDIDOS SELECIONADOS     
                         </span>
                         <span className="order-summary-total">
-                                <strong className="amount-selected">R$ 50,00</strong>
+                                <strong className="amount-selected"> {formatPrice(totalPrice)}</strong>
                                 VALOR TOTAL
                         </span>
                        
