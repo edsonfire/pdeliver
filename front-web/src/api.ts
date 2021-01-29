@@ -1,8 +1,8 @@
 import axios from "axios";
 import { OrderPayload } from "./Orders/Types";
 
-/*const API_URL = 'https://prime-sds2.herokuapp.com';*/
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://prime-sds2.herokuapp.com';
+/*const API_URL = 'http://localhost:8080';*/
 const mapboxToken =process.env.REACT_APP_ACCESS_TOKEN_MAP_BOX;
 export function fetchProducts(){
 
