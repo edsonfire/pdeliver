@@ -3,10 +3,12 @@ import './styles.css';
 import StepsHeader from './StepsHeader';
 import ProductsList from './ProductsList';
 import { OrderlocationData, Product } from './Types';
-import { fetchProducts } from '../api';
+import { fetchProducts, saveorder } from '../api';
 import OrderLocation from './OrderLocation';
 import OrderSummary from './OrderSummary';
 import { checkIsSelected } from './helpers';
+import { toast } from 'react-toastify';
+
 
 
 type Props ={
@@ -25,7 +27,10 @@ const totalPrice = selectedProducts.reduce((sum,item)=> {
         useEffect(()=>{
                         fetchProducts()
                         .then(reponse => setProducts(reponse.data))
-                        .catch(error=> console.log(error))
+                        .catch(error=> {
+                                
+                                toast.warning('Erro ao listar os produtos')
+                        })
 
 
         }, []);
@@ -41,6 +46,27 @@ const totalPrice = selectedProducts.reduce((sum,item)=> {
                 }
               }
               
+
+
+
+              const handleSubmit = () => {
+                const productsIds = selectedProducts.map(({ id }) => ({ id }));
+                const payload = {
+                  ...orderLocation!,
+                  products: productsIds
+                }
+              
+                saveorder(payload).then((response) => {
+                  toast.error(`Pedido enviado com sucesso! nº ${response.data.id}`);
+                  setSelectedProducts([]);
+                })
+                  .catch(() => {
+                    toast.warning('Erro ao enviar pedido');
+                  })
+              }
+              
+
+
               
     return (
         <>
@@ -53,7 +79,7 @@ const totalPrice = selectedProducts.reduce((sum,item)=> {
                         selectedProducts={selectedProducts}
                         ></ProductsList>
                 <OrderLocation onChangeLocation={location=>setOrderLocation(location)}></OrderLocation>
-                <OrderSummary amount={selectedProducts.length} totalPrice={totalPrice}></OrderSummary>
+                <OrderSummary amount={selectedProducts.length} totalPrice={totalPrice}  onSumit={handleSubmit}></OrderSummary>
         </div>
 
         </>
