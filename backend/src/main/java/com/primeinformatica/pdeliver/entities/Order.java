@@ -138,6 +138,17 @@ public class Order implements Serializable {
 		return products;
 	}
 
+	
+	
+	public double getTotal() {
+		
+		double sum=0.0;
+		for(Product p:products) {
+			sum+=p.getPrice();
+		
+		}
+		return sum;
+	}
 
 
 	@Override
