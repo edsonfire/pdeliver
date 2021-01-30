@@ -7,9 +7,10 @@ type Props = {
 
         amount:number;
         totalPrice:number;
+        onSumit:()=>void;
 }
 
-function OrderSummary({amount, totalPrice}:Props){
+function OrderSummary({amount, totalPrice, onSumit}:Props){
 
     return (
             <>
@@ -26,7 +27,12 @@ function OrderSummary({amount, totalPrice}:Props){
                         </span>
                        
                        </div>
-                       <button className="order-summary-make-order">
+                       <button 
+                       className="order-summary-make-order"
+                       onClick={onSumit}
+                       >
+                       
+                       
                                 FAZER PEDIDO                                
                         </button>
                     </div>
