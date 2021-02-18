@@ -1,13 +1,29 @@
+import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function Header() {
+
+
+  const navigation = useNavigation();
+
+  const handleOnPress = () => {
+    navigation.navigate('Home');
+  
+  }
+
+
+
   return (
-    <View style={styles.container}>
-      <Image  source={require('../src/assets/logo.png')} ></Image>
+    <TouchableWithoutFeedback onPress={handleOnPress}>   
+      <View style={styles.container}>
+      <Image  source={require('../assets/logo.png')} ></Image>
       <Text style={styles.text}>Prime Deliver</Text>
     </View>
+    </TouchableWithoutFeedback>
+
   );
 }
 
@@ -27,8 +43,7 @@ const styles = StyleSheet.create({
     lineHeight:25,
     color:'#FFF',
     letterSpacing: -0.024,
-    marginLeft:5
-
+    marginLeft:5,
   }
 
 });
